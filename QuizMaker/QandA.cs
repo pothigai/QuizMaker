@@ -10,10 +10,7 @@ namespace QuizMaker
     {
         public string Question { get; set; }
         public bool MultipleAnswers { get; set; }
-        public string Option1 { get; set; }
-        public string Option2 { get; set; }
-        public string Option3 { get; set; }
-        public string Option4 { get; set; }
+        public List<string> Options { get; set; }
         public int CorrectAnswers { get; set; }
         public string[] Answer { get; set; }
     }
