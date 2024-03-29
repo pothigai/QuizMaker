@@ -15,7 +15,10 @@ namespace QuizMaker
 
         public void printOptions(List<string> Options)
         {
-            Console.WriteLine($"(1) {Options[0]}\t (2) {Options[1]}\r\n(3) {Options[2]}\t\t (4) {Options[3]}");
+            for (int i = 0; i < Options.Count; i++)
+            {
+                Console.WriteLine($"({i + 1}){Options[i]}");
+            }
         }
     }
 }
