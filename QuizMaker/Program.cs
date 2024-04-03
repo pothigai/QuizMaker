@@ -9,22 +9,19 @@ namespace QuizMaker
             Console.WriteLine("Welcome to the quiz maker");
 
             var QuestionList = new List<QandA>();
+            UserInterface UI = new UserInterface();
 
-            Console.WriteLine("How many questions do you want to add?");
-            int numQuestions = int.Parse(Console.ReadLine());
+            int numQuestions = UI.scanInputInteger("How many questions do you want to add?");
 
             for (int q = 0; q < numQuestions; q++)
             {
                 QuestionList.Add(QandA.CreateQuestion());
             }
 
-            Format UI = new Format();
-
             foreach (var question in QuestionList)
             {
                 QandA.PresentQuestion(question);
             }
-
         }
     }
 }

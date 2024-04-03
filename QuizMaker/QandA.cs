@@ -8,6 +8,8 @@ namespace QuizMaker
 {
     public class QandA
     {
+        public static UserInterface UI = new UserInterface();
+
         public string Question { get; set; }
         public bool MultipleAnswers { get; set; }
         public List<string> Options { get; set; }
@@ -18,26 +20,22 @@ namespace QuizMaker
         {
             var newQuestion = new QandA();
 
+            newQuestion.Question = UI.scanInputString("Enter the question:");
             Console.WriteLine("Enter the question:");
-            newQuestion.Question = Console.ReadLine();
 
-            Console.WriteLine("Does this question have multiple answers? (true/false)");
-            newQuestion.MultipleAnswers = bool.Parse(Console.ReadLine());
+            newQuestion.MultipleAnswers = UI.scanInputBool("Does this question have multiple answers? (true/false)");
 
-            Console.WriteLine("How many options does this question have?");
-            int numOptions = int.Parse(Console.ReadLine());
+            int numOptions = UI.scanInputInteger("How many options does this question have?");
             newQuestion.Options = new List<string>();
 
             for (int o = 0; o < numOptions; o++)
             {
-                Console.WriteLine($"Enter option {o + 1}:");
-                newQuestion.Options.Add(Console.ReadLine());
+                newQuestion.Options.Add(UI.scanInputString($"Enter option {o + 1}:"));
             }
 
             if (newQuestion.MultipleAnswers)
             {
-                Console.WriteLine("How many correct answers does this question have?");
-                newQuestion.CorrectAnswers = int.Parse(Console.ReadLine());
+                newQuestion.CorrectAnswers = UI.scanInputInteger("How many correct answers does this question have?");
             }
             else
             {
@@ -47,8 +45,7 @@ namespace QuizMaker
 
             for (int a = 0; a < newQuestion.CorrectAnswers; a++)
             {
-                Console.WriteLine($"Enter correct answer {a + 1}:");
-                newQuestion.Answer[a] = Console.ReadLine();
+                newQuestion.Answer[a] = UI.scanInputString($"Enter correct answer {a + 1}:");
             }
 
             return newQuestion;
@@ -56,7 +53,7 @@ namespace QuizMaker
 
         public static void PresentQuestion(QandA question)
         {
-            Format UI = new Format();
+            UserInterface UI = new UserInterface();
 
             UI.printQuestion(question.Question);
             UI.printOptions(question.Options);
