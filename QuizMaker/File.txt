@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ArrayOfQandA xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <QandA>
+    <Question>sky color?</Question>
+    <MultipleAnswers>false</MultipleAnswers>
+    <Options>
+      <string>purple</string>
+      <string>maroon</string>
+      <string>blue</string>
+      <string>white</string>
+    </Options>
+    <CorrectAnswers>1</CorrectAnswers>
+    <Answer>
+      <string>blue</string>
+    </Answer>
+  </QandA>
+</ArrayOfQandA>

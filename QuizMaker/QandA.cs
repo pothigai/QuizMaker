@@ -87,7 +87,7 @@ namespace QuizMaker
 
             for (int i = 0; i < numberOfAnswers; i++)
             {
-                choices.Add(int.Parse(Console.ReadLine()));
+                choices.Add(UI.scanInputInteger(Console.ReadLine()));
             }
 
             return choices;
@@ -111,5 +111,7 @@ namespace QuizMaker
 
             return results;
         }
+
+
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System.Reflection.Metadata.Ecma335;
+using System.Xml.Serialization;
 
 namespace QuizMaker
 {
@@ -18,10 +19,18 @@ namespace QuizMaker
                 QuestionList.Add(QandA.CreateQuestion());
             }
 
+            XmlSerializer writer = new XmlSerializer(typeof(List<QandA>));
+            var path = @"..\..\..\File.txt";
+            using (FileStream file = File.Create(path))
+            {
+                writer.Serialize(file, QuestionList);
+            }
+
             foreach (var question in QuestionList)
             {
                 QandA.PresentQuestion(question);
             }
+
         }
     }
 }
