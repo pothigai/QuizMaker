@@ -21,7 +21,6 @@ namespace QuizMaker
             var newQuestion = new QandA();
 
             newQuestion.Question = UI.scanInputString("Enter the question:");
-            Console.WriteLine("Enter the question:");
 
             newQuestion.MultipleAnswers = UI.scanInputBool("Does this question have multiple answers? (true/false)");
 
@@ -35,7 +34,8 @@ namespace QuizMaker
 
             if (newQuestion.MultipleAnswers)
             {
-                newQuestion.CorrectAnswers = UI.scanInputInteger("How many correct answers does this question have?");
+                Console.WriteLine("How many correct answers does this question have?");
+                newQuestion.CorrectAnswers = int.Parse(Console.ReadLine());
             }
             else
             {
@@ -45,16 +45,17 @@ namespace QuizMaker
 
             for (int a = 0; a < newQuestion.CorrectAnswers; a++)
             {
-                newQuestion.Answer[a] = UI.scanInputString($"Enter correct answer {a + 1}:");
+                Console.WriteLine($"Enter correct answer {a + 1}:");
+                newQuestion.Answer[a] = Console.ReadLine();
             }
 
             return newQuestion;
         }
 
-        public static void PresentQuestion(QandA question)
+        public int PresentQuestion(QandA question)
         {
             UserInterface UI = new UserInterface();
-
+            int score = 0;
             UI.printQuestion(question.Question);
             UI.printOptions(question.Options);
 
@@ -72,11 +73,14 @@ namespace QuizMaker
             if (results.Contains(false))
             {
                 Console.WriteLine("Wrong.");
+                score = 0;
             }
             else
             {
                 Console.WriteLine("Correct!");
+                score = 1;
             }
+            return score;
         }
 
         static List<int> GetChoices(int numberOfAnswers)
@@ -87,7 +91,7 @@ namespace QuizMaker
 
             for (int i = 0; i < numberOfAnswers; i++)
             {
-                choices.Add(UI.scanInputInteger(Console.ReadLine()));
+                choices.Add(int.Parse(Console.ReadLine()));
             }
 
             return choices;
@@ -111,7 +115,5 @@ namespace QuizMaker
 
             return results;
         }
-
-
     }
 }

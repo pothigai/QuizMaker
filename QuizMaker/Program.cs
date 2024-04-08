@@ -11,24 +11,47 @@ namespace QuizMaker
 
             var QuestionList = new List<QandA>();
             UserInterface UI = new UserInterface();
+            QandA QA = new QandA();
 
-            int numQuestions = UI.scanInputInteger("How many questions do you want to add?");
+            bool build = UI.scanInputBool("Do you want to build a quiz?");
 
-            for (int q = 0; q < numQuestions; q++)
+            if (build)
             {
-                QuestionList.Add(QandA.CreateQuestion());
+                int numQuestions = UI.scanInputInteger("How many questions do you want to add?");
+
+                for (int q = 0; q < numQuestions; q++)
+                {
+                    QuestionList.Add(QandA.CreateQuestion());
+                }
+
+                XmlSerializer serializer = new XmlSerializer(typeof(List<QandA>));
+                var path = @"..\..\..\File.txt";
+                using (FileStream file = File.Create(path))
+                {
+                    serializer.Serialize(file, QuestionList);
+                }
             }
-
-            XmlSerializer writer = new XmlSerializer(typeof(List<QandA>));
-            var path = @"..\..\..\File.txt";
-            using (FileStream file = File.Create(path))
+            bool play = UI.scanInputBool("Do you want to play?");
+            if (play)
             {
-                writer.Serialize(file, QuestionList);
+                int points = 0;
+                XmlSerializer serializer = new XmlSerializer(typeof(List<QandA>));
+                var path = @"..\..\..\File.txt";
+                using (FileStream file = File.OpenRead(path))
+                {
+                    QuestionList = serializer.Deserialize(file) as List<QandA>;
+                }
+
+                foreach (var question in QuestionList)
+                {
+                    points += QA.PresentQuestion(question);
+                    Console.WriteLine("Total points:");
+                    Console.WriteLine(points);
+                }
             }
-
-            foreach (var question in QuestionList)
+            else
             {
-                QandA.PresentQuestion(question);
+                Console.WriteLine("Exiting.");
             }
 
         }
