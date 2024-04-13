@@ -12,6 +12,8 @@ namespace QuizMaker
             var QuestionList = new List<QandA>();
             UserInterface UI = new UserInterface();
             QandA QA = new QandA();
+            QuestionListLogic QLL = new QuestionListLogic();
+            var path = @"..\..\..\File.txt";
 
             bool build = UI.scanInputBool("Do you want to build a quiz?");
 
@@ -21,30 +23,22 @@ namespace QuizMaker
 
                 for (int q = 0; q < numQuestions; q++)
                 {
-                    QuestionList.Add(QandA.CreateQuestion());
+                    QuestionList.Add(QLL.CreateQuestion());
                 }
-
-                XmlSerializer serializer = new XmlSerializer(typeof(List<QandA>));
-                var path = @"..\..\..\File.txt";
-                using (FileStream file = File.Create(path))
-                {
-                    serializer.Serialize(file, QuestionList);
-                }
+                UI.CreateXmlFile(QuestionList, path);
             }
+
             bool play = UI.scanInputBool("Do you want to play?");
+            
             if (play)
             {
                 int points = 0;
-                XmlSerializer serializer = new XmlSerializer(typeof(List<QandA>));
-                var path = @"..\..\..\File.txt";
-                using (FileStream file = File.OpenRead(path))
-                {
-                    QuestionList = serializer.Deserialize(file) as List<QandA>;
-                }
+
+                QuestionList = UI.ReadXmlFile(path);
 
                 foreach (var question in QuestionList)
                 {
-                    points += QA.PresentQuestion(question);
+                    points += QLL.PresentQuestion(question);
                     Console.WriteLine("Total points:");
                     Console.WriteLine(points);
                 }
