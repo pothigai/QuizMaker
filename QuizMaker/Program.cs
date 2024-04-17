@@ -25,7 +25,7 @@ namespace QuizMaker
                 {
                     QuestionList.Add(QLL.CreateQuestion());
                 }
-                UI.CreateXmlFile(QuestionList, path);
+               QLL.CreateXmlFile(QuestionList, path);
             }
 
             bool play = UI.scanInputBool("Do you want to play?");
@@ -34,7 +34,7 @@ namespace QuizMaker
             {
                 int points = 0;
 
-                QuestionList = UI.ReadXmlFile(path);
+                QuestionList = QLL.ReadXmlFile(path);
 
                 foreach (var question in QuestionList)
                 {
