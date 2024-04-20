@@ -10,6 +10,7 @@ namespace QuizMaker
     public class QuestionListLogic
     {
         public static UserInterface UI = new UserInterface();
+        XmlSerializer serializer = new XmlSerializer(typeof(List<QandA>));
         public QandA CreateQuestion()
         {
             var newQuestion = new QandA();
@@ -109,7 +110,6 @@ namespace QuizMaker
         }
         public void CreateXmlFile(List<QandA> QuestionList, string filePath)
         {
-            XmlSerializer serializer = new XmlSerializer(typeof(List<QandA>));
             using (FileStream file = File.Create(filePath))
             {
                 serializer.Serialize(file, QuestionList);
@@ -118,7 +118,6 @@ namespace QuizMaker
         public List<QandA> ReadXmlFile(string filePath)
         {
             var QuestionList = new List<QandA>();
-            XmlSerializer serializer = new XmlSerializer(typeof(List<QandA>));
             using (FileStream file = File.OpenRead(filePath))
             {
                 QuestionList = serializer.Deserialize(file) as List<QandA>;
