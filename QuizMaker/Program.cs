@@ -14,9 +14,9 @@ namespace QuizMaker
             QandA QA = new QandA();
             QuestionListLogic QLL = new QuestionListLogic();
 
-            bool build = UI.scanInputBool("Do you want to build a quiz?");
+            char choice = UI.scanInputChar("Do you want to play (p) or build (b) or exit (x)?");
 
-            if (build)
+            if (choice == 'b')
             {
                 int numQuestions = UI.scanInputInteger("How many questions do you want to add?");
 
@@ -26,10 +26,8 @@ namespace QuizMaker
                 }
                QLL.CreateXmlFile(QuestionList,Constants.PATH);
             }
-
-            bool play = UI.scanInputBool("Do you want to play?");
             
-            if (play)
+            if (choice == 'p')
             {
                 int points = 0;
 
@@ -42,7 +40,7 @@ namespace QuizMaker
                     Console.WriteLine(points);
                 }
             }
-            else
+            if (choice == 'x')
             {
                 Console.WriteLine("Exiting.");
             }

@@ -73,5 +73,20 @@ namespace QuizMaker
             }
             return output;
         }
+        public char scanInputChar(string message)
+        {
+            char output;
+            string input = "";
+            while (!char.TryParse(input, out output))
+            {
+                Console.WriteLine(message);
+                input = Console.ReadLine();
+                if (!char.TryParse(input, out output))
+                {
+                    Console.WriteLine("Invalid input, please enter a character.");
+                }
+            }
+            return char.ToLower(output);
+        }
     }
 }
