@@ -13,7 +13,6 @@ namespace QuizMaker
             UserInterface UI = new UserInterface();
             QandA QA = new QandA();
             QuestionListLogic QLL = new QuestionListLogic();
-            var path = @"..\..\..\File.txt";
 
             bool build = UI.scanInputBool("Do you want to build a quiz?");
 
@@ -25,7 +24,7 @@ namespace QuizMaker
                 {
                     QuestionList.Add(QLL.CreateQuestion());
                 }
-               QLL.CreateXmlFile(QuestionList, path);
+               QLL.CreateXmlFile(QuestionList,Constants.PATH);
             }
 
             bool play = UI.scanInputBool("Do you want to play?");
@@ -34,7 +33,7 @@ namespace QuizMaker
             {
                 int points = 0;
 
-                QuestionList = QLL.ReadXmlFile(path);
+                QuestionList = QLL.ReadXmlFile(Constants.PATH);
 
                 foreach (var question in QuestionList)
                 {
