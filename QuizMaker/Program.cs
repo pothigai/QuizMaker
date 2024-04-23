@@ -22,11 +22,11 @@ namespace QuizMaker
 
                 for (int q = 0; q < numQuestions; q++)
                 {
-                    QuestionList.Add(QLL.CreateQuestion());
+                    QuestionList.Add(UI.CreateQuestion());
                 }
-               QLL.CreateXmlFile(QuestionList,Constants.PATH);
+                QLL.CreateXmlFile(QuestionList, Constants.PATH);
             }
-            
+
             if (choice == 'p')
             {
                 int points = 0;
@@ -35,7 +35,7 @@ namespace QuizMaker
 
                 foreach (var question in QuestionList)
                 {
-                    points += QLL.PresentQuestion(question);
+                    points += UI.PresentQuestion(question);
                     Console.WriteLine("Total points:");
                     Console.WriteLine(points);
                 }

@@ -9,6 +9,7 @@ namespace QuizMaker
 {
     public class UserInterface
     {
+        QuestionListLogic QLL = new QuestionListLogic();
         public void printQuestion(string message)
         {
             Console.WriteLine($"Question: {message}");
@@ -87,6 +88,82 @@ namespace QuizMaker
                 }
             }
             return char.ToLower(output);
+        }
+        public QandA CreateQuestion()
+        {
+            var newQuestion = new QandA();
+
+            newQuestion.Question = scanInputString("Enter the question:");
+
+            newQuestion.MultipleAnswers = scanInputBool("Does this question have multiple answers? (true/false)");
+
+            int numOptions = scanInputInteger("How many options does this question have?");
+            newQuestion.Options = new List<string>();
+
+            for (int o = 0; o < numOptions; o++)
+            {
+                newQuestion.Options.Add(scanInputString($"Enter option {o + 1}:").ToLower());
+            }
+
+            if (newQuestion.MultipleAnswers)
+            {
+                Console.WriteLine("How many correct answers does this question have?");
+                newQuestion.CorrectAnswers = int.Parse(Console.ReadLine());
+            }
+            else
+            {
+                newQuestion.CorrectAnswers = 1;
+            }
+            newQuestion.Answer = new string[newQuestion.CorrectAnswers];
+
+            for (int a = 0; a < newQuestion.CorrectAnswers; a++)
+            {
+                while (true)
+                {
+                    Console.WriteLine($"Enter correct answer {a + 1}:");
+                    newQuestion.Answer[a] = Console.ReadLine().ToLower();
+                    if (!newQuestion.Options.Contains(newQuestion.Answer[a]))
+                    {
+                        Console.WriteLine("Please make sure your entry matches the options.");
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
+            }
+
+            return newQuestion;
+        }
+
+        public int PresentQuestion(QandA question)
+        {
+            int score = 0;
+            printQuestion(question.Question);
+            printOptions(question.Options);
+
+            List<int> choices = QLL.GetChoices(question.CorrectAnswers);
+
+            Console.WriteLine("You've chosen:");
+            foreach (int choice in choices)
+            {
+                Console.WriteLine(question.Options[choice - 1]);
+            }
+
+            bool[] results = QLL.EvaluateAnswers(question, choices);
+
+            Console.WriteLine("Result:");
+            if (results.Contains(false))
+            {
+                Console.WriteLine("Wrong.");
+                score = 0;
+            }
+            else
+            {
+                Console.WriteLine("Correct!");
+                score = 1;
+            }
+            return score;
         }
     }
 }
