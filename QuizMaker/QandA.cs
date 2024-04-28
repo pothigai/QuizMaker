@@ -8,7 +8,6 @@ namespace QuizMaker
 {
     public class QandA
     {
-        public static UserInterface UI = new UserInterface();
 
         public string Question { get; set; }
         public bool MultipleAnswers { get; set; }

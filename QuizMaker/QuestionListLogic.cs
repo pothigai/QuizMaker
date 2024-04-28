@@ -11,19 +11,6 @@ namespace QuizMaker
     {
         XmlSerializer serializer = new XmlSerializer(typeof(List<QandA>));
 
-        public List<int> GetChoices(int numberOfAnswers)
-        {
-            Console.WriteLine("Enter your option");
-
-            List<int> choices = new List<int>();
-
-            for (int i = 0; i < numberOfAnswers; i++)
-            {
-                choices.Add(int.Parse(Console.ReadLine()));
-            }
-
-            return choices;
-        }
         public bool[] EvaluateAnswers(QandA question, List<int> choices)
         {
             bool[] results = new bool[question.CorrectAnswers];
@@ -57,6 +44,25 @@ namespace QuizMaker
                 QuestionList = serializer.Deserialize(file) as List<QandA>;
             }
             return QuestionList;
+        }
+        public int AddPoints(QandA question, List<int> choices)
+        {
+            int score = 0;
+
+            bool[] results = EvaluateAnswers(question, choices);
+
+            Console.WriteLine("Result:");
+            if (results.Contains(false))
+            {
+                Console.WriteLine("Wrong.");
+                score = 0;
+            }
+            else
+            {
+                Console.WriteLine("Correct!");
+                score = 1;
+            }
+            return score;
         }
     }
 }

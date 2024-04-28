@@ -16,7 +16,7 @@ namespace QuizMaker
 
             char choice = UI.scanInputChar("Do you want to play (p) or build (b) or exit (x)?");
 
-            if (choice == 'b')
+            if (choice == Constants.BUILD)
             {
                 int numQuestions = UI.scanInputInteger("How many questions do you want to add?");
 
@@ -27,7 +27,7 @@ namespace QuizMaker
                 QLL.CreateXmlFile(QuestionList, Constants.PATH);
             }
 
-            if (choice == 'p')
+            if (choice == Constants.PLAY)
             {
                 int points = 0;
 
@@ -35,12 +35,14 @@ namespace QuizMaker
 
                 foreach (var question in QuestionList)
                 {
-                    points += UI.PresentQuestion(question);
+                    UI.PresentQuestion(question);
+                    List<int> choices = UI.GetChoices(question.CorrectAnswers);
+                    points += QLL.AddPoints(question, choices);
                     Console.WriteLine("Total points:");
                     Console.WriteLine(points);
                 }
             }
-            if (choice == 'x')
+            if (choice == Constants.EXIT)
             {
                 Console.WriteLine("Exiting.");
             }

@@ -14,7 +14,6 @@ namespace QuizMaker
         {
             Console.WriteLine($"Question: {message}");
         }
-
         public void printOptions(List<string> Options)
         {
             for (int i = 0; i < Options.Count; i++)
@@ -132,38 +131,33 @@ namespace QuizMaker
                     }
                 }
             }
-
             return newQuestion;
         }
-
-        public int PresentQuestion(QandA question)
+        public List<int> GetChoices(int numberOfAnswers)
         {
-            int score = 0;
+            Console.WriteLine("Enter your option");
+
+            List<int> choices = new List<int>();
+
+            for (int i = 0; i < numberOfAnswers; i++)
+            {
+                choices.Add(int.Parse(Console.ReadLine()));
+            }
+
+            return choices;
+        }
+        public void PresentQuestion(QandA question)
+        {
             printQuestion(question.Question);
             printOptions(question.Options);
 
-            List<int> choices = QLL.GetChoices(question.CorrectAnswers);
+            List<int> choices = GetChoices(question.CorrectAnswers);
 
             Console.WriteLine("You've chosen:");
             foreach (int choice in choices)
             {
                 Console.WriteLine(question.Options[choice - 1]);
             }
-
-            bool[] results = QLL.EvaluateAnswers(question, choices);
-
-            Console.WriteLine("Result:");
-            if (results.Contains(false))
-            {
-                Console.WriteLine("Wrong.");
-                score = 0;
-            }
-            else
-            {
-                Console.WriteLine("Correct!");
-                score = 1;
-            }
-            return score;
         }
     }
 }
