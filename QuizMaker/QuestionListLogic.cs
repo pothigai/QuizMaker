@@ -39,6 +39,13 @@ namespace QuizMaker
         public List<QandA> ReadXmlFile(string filePath)
         {
             var QuestionList = new List<QandA>();
+
+            if (!File.Exists(filePath))
+            {
+                Console.WriteLine($"File '{filePath}' does not exist.");
+                return QuestionList;
+            }
+
             using (FileStream file = File.OpenRead(filePath))
             {
                 QuestionList = serializer.Deserialize(file) as List<QandA>;

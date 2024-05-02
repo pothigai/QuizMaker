@@ -146,12 +146,10 @@ namespace QuizMaker
 
             return choices;
         }
-        public void PresentQuestion(QandA question)
+        public void PresentQuestion(QandA question, List<int> choices)
         {
             printQuestion(question.Question);
             printOptions(question.Options);
-
-            List<int> choices = GetChoices(question.CorrectAnswers);
 
             Console.WriteLine("You've chosen:");
             foreach (int choice in choices)

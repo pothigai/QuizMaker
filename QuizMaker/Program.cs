@@ -11,7 +11,6 @@ namespace QuizMaker
 
             var QuestionList = new List<QandA>();
             UserInterface UI = new UserInterface();
-            QandA QA = new QandA();
             QuestionListLogic QLL = new QuestionListLogic();
 
             char choice = UI.scanInputChar("Do you want to play (p) or build (b) or exit (x)?");
@@ -26,8 +25,7 @@ namespace QuizMaker
                 }
                 QLL.CreateXmlFile(QuestionList, Constants.PATH);
             }
-
-            if (choice == Constants.PLAY)
+            else if (choice == Constants.PLAY)
             {
                 int points = 0;
 
@@ -35,19 +33,23 @@ namespace QuizMaker
 
                 foreach (var question in QuestionList)
                 {
-                    UI.PresentQuestion(question);
+                    UI.PresentQuestion(question, new List<int>());
                     List<int> choices = UI.GetChoices(question.CorrectAnswers);
                     points += QLL.AddPoints(question, choices);
                     Console.WriteLine("Total points:");
                     Console.WriteLine(points);
                 }
             }
-            if (choice == Constants.EXIT)
+            else if (choice == Constants.EXIT)
             {
                 Console.WriteLine("Exiting.");
             }
-
+            else
+            {
+                Console.WriteLine("Invalid choice. Please choose 'p' to play, 'b' to build, or 'x' to exit.");
+            }
         }
+
     }
 }
 
