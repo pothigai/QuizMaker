@@ -87,50 +87,68 @@ namespace QuizMaker
             }
             return char.ToLower(output);
         }
-    public QandA CreateQuestion()
+        public QandA CreateQuestion()
         {
             var newQuestion = new QandA();
 
             newQuestion.Question = scanInputString("Enter the question:");
-
             newQuestion.MultipleAnswers = scanInputBool("Does this question have multiple answers? (true/false)");
 
+            newQuestion.Options = GetOptions();
+            newQuestion.CorrectAnswers = GetCorrectAnswers(newQuestion.Options);
+
+            newQuestion.Answer = GetCorrectAnswer(newQuestion.Options, newQuestion.CorrectAnswers);
+
+            return newQuestion;
+        }
+        public List<string> GetOptions()
+        {
             int numOptions = scanInputInteger("How many options does this question have?");
-            newQuestion.Options = new List<string>();
+            List<string> options = new List<string>();
 
             for (int o = 0; o < numOptions; o++)
             {
-                newQuestion.Options.Add(scanInputString($"Enter option {o + 1}:").ToLower());
+                options.Add(scanInputString($"Enter option {o + 1}:").ToLower());
             }
 
-            if (newQuestion.MultipleAnswers)
+            return options;
+        }
+
+        public int GetCorrectAnswers(List<string> options)
+        {
+            if (scanInputBool("Does this question have multiple correct answers? (true/false)"))
             {
                 Console.WriteLine("How many correct answers does this question have?");
-                newQuestion.CorrectAnswers = int.Parse(Console.ReadLine());
+                return scanInputInteger("Enter the number of correct answers:");
             }
             else
             {
-                newQuestion.CorrectAnswers = 1;
+                return 1;
             }
-            newQuestion.Answer = new string[newQuestion.CorrectAnswers];
+        }
 
-            for (int a = 0; a < newQuestion.CorrectAnswers; a++)
+        public string[] GetCorrectAnswer(List<string> options, int correctAnswers)
+        {
+            string[] answers = new string[correctAnswers];
+
+            for (int a = 0; a < correctAnswers; a++)
             {
                 while (true)
                 {
                     Console.WriteLine($"Enter correct answer {a + 1}:");
-                    newQuestion.Answer[a] = Console.ReadLine().ToLower();
-                    if (!newQuestion.Options.Contains(newQuestion.Answer[a]))
+                    string answer = Console.ReadLine().ToLower();
+                    if (!options.Contains(answer))
                     {
                         Console.WriteLine("Please make sure your entry matches the options.");
                     }
                     else
                     {
+                        answers[a] = answer;
                         break;
                     }
                 }
             }
-            return newQuestion;
+            return answers;
         }
         public List<int> GetChoices(int numberOfAnswers)
         {
