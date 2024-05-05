@@ -21,11 +21,7 @@ namespace QuizMaker
 
                 if (choice == Constants.BUILD)
                 {
-                    int numQuestions = UI.scanInputInteger("How many questions do you want to add?");
-                    for (int q = 0; q < numQuestions; q++)
-                    {
-                        QuestionList.Add(UI.CreateQuestion());
-                    }
+                    UI.addQuestion(QuestionList);
                     QLL.CreateXmlFile(QuestionList, Constants.PATH);
                     validChoice = true;
                 }

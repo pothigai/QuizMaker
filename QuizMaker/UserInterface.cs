@@ -31,44 +31,41 @@ namespace QuizMaker
             Console.WriteLine(message);
             return Console.ReadLine();
         }
+        public string getInput(string message)
+        {
+            Console.WriteLine(message);
+            return Console.ReadLine();
+        }
         public int scanInputInteger(string message)
         {
-            int output = 0;
-            string input = "";
-
+            int output;
             while (true)
             {
-                Console.WriteLine(message);
-                input = Console.ReadLine();
-                if (!int.TryParse(input, out output))
+                string input = getInput(message);
+                if (int.TryParse(input, out output))
                 {
-                    Console.WriteLine("Invalid input, please enter an integer.");
+                    break;
                 }
                 else
                 {
-                    int.TryParse(input, out output);
-                    break;
+                    Console.WriteLine("Invalid input, please enter an integer.");
                 }
             }
             return output;
         }
         public bool scanInputBool(string message)
         {
-            bool output = false;
-            string input = "";
-
+            bool output;
             while (true)
             {
-                Console.WriteLine(message);
-                input = Console.ReadLine();
-                if (!bool.TryParse(input, out output))
+                string input = getInput(message);
+                if (bool.TryParse(input, out output))
                 {
-                    Console.WriteLine("Invalid input, please enter true or false.");
+                    break;
                 }
                 else
                 {
-                    bool.TryParse(input, out output);
-                    break;
+                    Console.WriteLine("Invalid input, please enter true or false.");
                 }
             }
             return output;
@@ -76,19 +73,21 @@ namespace QuizMaker
         public char scanInputChar(string message)
         {
             char output;
-            string input = "";
-            while (!char.TryParse(input, out output))
+            while (true)
             {
-                Console.WriteLine(message);
-                input = Console.ReadLine();
-                if (!char.TryParse(input, out output))
+                string input = getInput(message);
+                if (char.TryParse(input, out output))
+                {
+                    break;
+                }
+                else
                 {
                     Console.WriteLine("Invalid input, please enter a character.");
                 }
             }
             return char.ToLower(output);
         }
-        public QandA CreateQuestion()
+    public QandA CreateQuestion()
         {
             var newQuestion = new QandA();
 
@@ -155,6 +154,14 @@ namespace QuizMaker
             foreach (int choice in choices)
             {
                 Console.WriteLine(question.Options[choice - 1]);
+            }
+        }
+        public void addQuestion(List<QandA> QuestionList)
+        {
+            int numQuestions = scanInputInteger("How many questions do you want to add?");
+            for (int q = 0; q < numQuestions; q++)
+            {
+                QuestionList.Add(CreateQuestion());
             }
         }
     }
