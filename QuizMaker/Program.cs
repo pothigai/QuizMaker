@@ -7,11 +7,12 @@ namespace QuizMaker
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Welcome to the quiz maker");
 
             var QuestionList = new List<QandA>();
             UserInterface ui = new UserInterface();
             QuestionListLogic logic = new QuestionListLogic();
+
+            ui.PrintOutputMessage("Welcome to the quiz maker");
 
             bool validChoice = false;
 
@@ -22,13 +23,13 @@ namespace QuizMaker
                 if (choice == Constants.BUILD)
                 {
                     ui.AddQuestion(QuestionList);
-                    logic.CreateXmlFile(QuestionList, Constants.PATH);
+                    logic.CreateXmlFile(QuestionList);
                     validChoice = true;
                 }
                 if (choice == Constants.PLAY)
                 {
                     int points = 0;
-                    QuestionList = logic.ReadXmlFile(Constants.PATH);
+                    QuestionList = logic.ReadXmlFile();
                     foreach (var question in QuestionList)
                     {
                         ui.PresentQuestion(question, new List<int>());

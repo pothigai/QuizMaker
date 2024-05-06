@@ -29,24 +29,24 @@ namespace QuizMaker
 
             return results;
         }
-        public void CreateXmlFile(List<QandA> QuestionList, string filePath)
+        public void CreateXmlFile(List<QandA> QuestionList)
         {
-            using (FileStream file = File.Create(filePath))
+            using (FileStream file = File.Create(Constants.PATH))
             {
                 serializer.Serialize(file, QuestionList);
             }
         }
-        public List<QandA> ReadXmlFile(string filePath)
+        public List<QandA> ReadXmlFile()
         {
             var QuestionList = new List<QandA>();
 
-            if (!File.Exists(filePath))
+            if (!File.Exists(Constants.PATH))
             {
-                Console.WriteLine($"File '{filePath}' does not exist.");
+                Console.WriteLine($"File '{Constants.PATH}' does not exist.");
                 return QuestionList;
             }
 
-            using (FileStream file = File.OpenRead(filePath))
+            using (FileStream file = File.OpenRead(Constants.PATH))
             {
                 QuestionList = serializer.Deserialize(file) as List<QandA>;
             }
