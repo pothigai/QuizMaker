@@ -9,39 +9,38 @@ namespace QuizMaker
 {
     public class UserInterface
     {
-        QuestionListLogic QLL = new QuestionListLogic();
-        public void printQuestion(string message)
+        public void PrintQuestion(string message)
         {
             Console.WriteLine($"Question: {message}");
         }
-        public void printOptions(List<string> Options)
+        public void PrintOptions(List<string> Options)
         {
             for (int i = 0; i < Options.Count; i++)
             {
                 Console.WriteLine($"({i + 1}){Options[i]}");
             }
         }
-        public void printOutputMessage(string message)
+        public void PrintOutputMessage(string message)
         {
             Console.WriteLine(message);
         }
 
-        public string scanInputString(string message)
+        public string ScanInputString(string message)
         {
             Console.WriteLine(message);
             return Console.ReadLine();
         }
-        public string getInput(string message)
+        public string GetInput(string message)
         {
             Console.WriteLine(message);
             return Console.ReadLine();
         }
-        public int scanInputInteger(string message)
+        public int ScanInputInteger(string message)
         {
             int output;
             while (true)
             {
-                string input = getInput(message);
+                string input = GetInput(message);
                 if (int.TryParse(input, out output))
                 {
                     break;
@@ -53,12 +52,12 @@ namespace QuizMaker
             }
             return output;
         }
-        public bool scanInputBool(string message)
+        public bool ScanInputBool(string message)
         {
             bool output;
             while (true)
             {
-                string input = getInput(message);
+                string input = GetInput(message);
                 if (bool.TryParse(input, out output))
                 {
                     break;
@@ -70,12 +69,12 @@ namespace QuizMaker
             }
             return output;
         }
-        public char scanInputChar(string message)
+        public char ScanInputChar(string message)
         {
             char output;
             while (true)
             {
-                string input = getInput(message);
+                string input = GetInput(message);
                 if (char.TryParse(input, out output))
                 {
                     break;
@@ -91,8 +90,8 @@ namespace QuizMaker
         {
             var newQuestion = new QandA();
 
-            newQuestion.Question = scanInputString("Enter the question:");
-            newQuestion.MultipleAnswers = scanInputBool("Does this question have multiple answers? (true/false)");
+            newQuestion.Question = ScanInputString("Enter the question:");
+            newQuestion.MultipleAnswers = ScanInputBool("Does this question have multiple answers? (true/false)");
 
             newQuestion.Options = GetOptions();
             newQuestion.CorrectAnswers = GetCorrectAnswers(newQuestion.Options);
@@ -103,12 +102,12 @@ namespace QuizMaker
         }
         public List<string> GetOptions()
         {
-            int numOptions = scanInputInteger("How many options does this question have?");
+            int numOptions = ScanInputInteger("How many options does this question have?");
             List<string> options = new List<string>();
 
             for (int o = 0; o < numOptions; o++)
             {
-                options.Add(scanInputString($"Enter option {o + 1}:").ToLower());
+                options.Add(ScanInputString($"Enter option {o + 1}:").ToLower());
             }
 
             return options;
@@ -116,10 +115,10 @@ namespace QuizMaker
 
         public int GetCorrectAnswers(List<string> options)
         {
-            if (scanInputBool("Does this question have multiple correct answers? (true/false)"))
+            if (ScanInputBool("Does this question have multiple correct answers? (true/false)"))
             {
                 Console.WriteLine("How many correct answers does this question have?");
-                return scanInputInteger("Enter the number of correct answers:");
+                return ScanInputInteger("Enter the number of correct answers:");
             }
             else
             {
@@ -165,8 +164,8 @@ namespace QuizMaker
         }
         public void PresentQuestion(QandA question, List<int> choices)
         {
-            printQuestion(question.Question);
-            printOptions(question.Options);
+            PrintQuestion(question.Question);
+            PrintOptions(question.Options);
 
             Console.WriteLine("You've chosen:");
             foreach (int choice in choices)
@@ -174,9 +173,9 @@ namespace QuizMaker
                 Console.WriteLine(question.Options[choice - 1]);
             }
         }
-        public void addQuestion(List<QandA> QuestionList)
+        public void AddQuestion(List<QandA> QuestionList)
         {
-            int numQuestions = scanInputInteger("How many questions do you want to add?");
+            int numQuestions = ScanInputInteger("How many questions do you want to add?");
             for (int q = 0; q < numQuestions; q++)
             {
                 QuestionList.Add(CreateQuestion());
