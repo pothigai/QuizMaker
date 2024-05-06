@@ -35,19 +35,19 @@ namespace QuizMaker
                         ui.PresentQuestion(question, new List<int>());
                         List<int> choices = ui.GetChoices(question.CorrectAnswers);
                         points += logic.AddPoints(question, choices);
-                        Console.WriteLine("Total points:");
-                        Console.WriteLine(points);
+                        ui.PrintOutputMessage("Total points:");
+                        ui.PrintOutputMessage(points.ToString());
                     }
                     validChoice = true;
                 }
                 if (choice == Constants.EXIT)
                 {
-                    Console.WriteLine("Exiting.");
+                    ui.PrintOutputMessage("Exiting.");
                     validChoice = true;
                 }
                 if (logic.InvalidCheck(choice))
                 {
-                    Console.WriteLine($"Invalid choice. Please choose '{Constants.PLAY}' to play, '{Constants.BUILD}' to build, or '{Constants.EXIT}' to exit.");
+                    ui.PrintOutputMessage($"Invalid choice. Please choose '{Constants.PLAY}' to play, '{Constants.BUILD}' to build, or '{Constants.EXIT}' to exit.");
                 }
             }
         }
