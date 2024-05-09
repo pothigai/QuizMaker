@@ -73,12 +73,7 @@ namespace QuizMaker
         }
         public bool InvalidCheck(char choice)
         {
-            bool check = false;
-            if (choice != Constants.BUILD && choice != Constants.PLAY && choice != Constants.EXIT)
-            {
-                check = true;
-            }
-            return check;
+            return !(choice == Constants.BUILD || choice == Constants.PLAY || choice == Constants.EXIT);
         }
     }
 }

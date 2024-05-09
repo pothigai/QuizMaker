@@ -20,6 +20,10 @@ namespace QuizMaker
             {
                 char choice = ui.ScanInputChar($"Do you want to play ({Constants.PLAY}) or build ({Constants.BUILD}) or exit ({Constants.EXIT})?");
 
+                if (logic.InvalidCheck(choice))
+                {
+                    ui.PrintOutputMessage($"Invalid choice. Please choose '{Constants.PLAY}' to play, '{Constants.BUILD}' to build, or '{Constants.EXIT}' to exit.");
+                }
                 if (choice == Constants.BUILD)
                 {
                     ui.AddQuestion(QuestionList);
@@ -44,10 +48,6 @@ namespace QuizMaker
                 {
                     ui.PrintOutputMessage("Exiting.");
                     validChoice = true;
-                }
-                if (logic.InvalidCheck(choice))
-                {
-                    ui.PrintOutputMessage($"Invalid choice. Please choose '{Constants.PLAY}' to play, '{Constants.BUILD}' to build, or '{Constants.EXIT}' to exit.");
                 }
             }
         }
