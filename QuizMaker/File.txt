@@ -1,34 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ArrayOfQandA xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <QandA>
-    <Question>Sky color?</Question>
-    <MultipleAnswers>false</MultipleAnswers>
+    <Question>sky color?</Question>
     <Options>
       <string>red</string>
       <string>blue</string>
       <string>green</string>
       <string>yellow</string>
     </Options>
-    <CorrectAnswers>1</CorrectAnswers>
     <Answer>
       <string>blue</string>
     </Answer>
   </QandA>
   <QandA>
     <Question>Pets?</Question>
-    <MultipleAnswers>true</MultipleAnswers>
     <Options>
-      <string>dog</string>
       <string>cat</string>
-      <string>hamster</string>
+      <string>dog</string>
+      <string>horse</string>
       <string>lion</string>
       <string>tiger</string>
     </Options>
-    <CorrectAnswers>3</CorrectAnswers>
     <Answer>
       <string>dog</string>
       <string>cat</string>
-      <string>hamster</string>
+      <string>horse</string>
     </Answer>
   </QandA>
 </ArrayOfQandA>

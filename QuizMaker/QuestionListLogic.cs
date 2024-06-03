@@ -11,24 +11,27 @@ namespace QuizMaker
     {
         XmlSerializer serializer = new XmlSerializer(typeof(List<QandA>));
 
-        public bool[] EvaluateAnswers(QandA question, List<int> choices)
+        public bool EvaluateAnswers(QandA question, List<int> choices)
         {
-            bool[] results = new bool[question.CorrectAnswers];
+            List<string> chosenOptions = choices.Select(choice => question.Options[choice - 1].Trim().ToLower()).ToList();
+            List<string> correctAnswers = question.Answer.Select(a => a.Trim().ToLower()).ToList();
 
-            for (int i = 0; i < choices.Count; i++)
+            if (chosenOptions.Count != correctAnswers.Count)
             {
-                if (question.Answer.Contains(question.Options[choices[i] - 1]))
+                return false;
+            }
+            foreach (var correctAnswer in correctAnswers)
+            {
+                if (!chosenOptions.Contains(correctAnswer))
                 {
-                    results[i] = true;
-                }
-                else
-                {
-                    results[i] = false;
+                    return false;
                 }
             }
 
-            return results;
+            return true;
         }
+
+
         public void CreateXmlFile(List<QandA> QuestionList)
         {
             using (FileStream file = File.Create(Constants.PATH))
@@ -36,6 +39,7 @@ namespace QuizMaker
                 serializer.Serialize(file, QuestionList);
             }
         }
+
         public List<QandA> ReadXmlFile()
         {
             var QuestionList = new List<QandA>();
@@ -52,25 +56,24 @@ namespace QuizMaker
             }
             return QuestionList;
         }
+
         public int AddPoints(QandA question, List<int> choices)
         {
-            int score = 0;
+            bool result = EvaluateAnswers(question, choices);
+            int score;
 
-            bool[] results = EvaluateAnswers(question, choices);
-
-            Console.WriteLine("Result:");
-            if (results.Contains(false))
+            if (result)
             {
-                Console.WriteLine("Wrong.");
-                score = 0;
+                score = 1;
             }
             else
             {
-                Console.WriteLine("Correct!");
-                score = 1;
+                score = 0;
             }
+
             return score;
         }
+
         public bool InvalidCheck(char choice)
         {
             return !(choice == Constants.BUILD || choice == Constants.PLAY || choice == Constants.EXIT);

@@ -8,11 +8,8 @@ namespace QuizMaker
 {
     public class QandA
     {
-
         public string Question { get; set; }
-        public bool MultipleAnswers { get; set; }
         public List<string> Options { get; set; }
-        public int CorrectAnswers { get; set; }
         public string[] Answer { get; set; }
 
     }

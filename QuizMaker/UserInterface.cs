@@ -13,6 +13,7 @@ namespace QuizMaker
         {
             Console.WriteLine($"Question: {message}");
         }
+
         public void PrintOptions(List<string> Options)
         {
             for (int i = 0; i < Options.Count; i++)
@@ -20,6 +21,7 @@ namespace QuizMaker
                 Console.WriteLine($"({i + 1}){Options[i]}");
             }
         }
+
         public void PrintOutputMessage(string message)
         {
             Console.WriteLine(message);
@@ -30,11 +32,13 @@ namespace QuizMaker
             Console.WriteLine(message);
             return Console.ReadLine();
         }
+
         public string GetInput(string message)
         {
             Console.WriteLine(message);
             return Console.ReadLine();
         }
+
         public int ScanInputInteger(string message)
         {
             int output;
@@ -52,23 +56,7 @@ namespace QuizMaker
             }
             return output;
         }
-        public bool ScanInputBool(string message)
-        {
-            bool output;
-            while (true)
-            {
-                string input = GetInput(message);
-                if (bool.TryParse(input, out output))
-                {
-                    break;
-                }
-                else
-                {
-                    Console.WriteLine("Invalid input, please enter true or false.");
-                }
-            }
-            return output;
-        }
+
         public char ScanInputChar(string message)
         {
             char output;
@@ -86,20 +74,68 @@ namespace QuizMaker
             }
             return char.ToLower(output);
         }
-        public QandA CreateQuestion()
+
+        public string[] GetCorrectAnswer(List<string> options)
         {
-            var newQuestion = new QandA();
-
-            newQuestion.Question = ScanInputString("Enter the question:");
-            newQuestion.MultipleAnswers = ScanInputBool("Does this question have multiple answers? (true/false)");
-
-            newQuestion.Options = GetOptions();
-            newQuestion.CorrectAnswers = GetCorrectAnswers(newQuestion.Options);
-
-            newQuestion.Answer = GetCorrectAnswer(newQuestion.Options, newQuestion.CorrectAnswers);
-
-            return newQuestion;
+            Console.WriteLine("Enter correct answer(s) separated by commas:");
+            string answerString = Console.ReadLine().ToLower();
+            int numberOfAnswers = answerString.Count(c => c == ',') + 1;
+            Console.WriteLine($"You entered {numberOfAnswers} answer(s).");
+            string[] answers = answerString.Split(',');
+            foreach (var answer in answers)
+            {
+                if (!options.Contains(answer.Trim()))
+                {
+                    Console.WriteLine($"'{answer}' is not a valid option. Please enter correct options.");
+                    return GetCorrectAnswer(options);
+                }
+            }
+            return answers.Select(a => a.Trim()).ToArray();
         }
+
+        public List<int> GetChoices(int numberOfAnswers)
+        {
+            Console.WriteLine("Enter your option(s) separated by commas:");
+
+            List<int> choices = new List<int>();
+
+            string input = Console.ReadLine();
+            string[] inputs = input.Split(',');
+            foreach (var choice in inputs)
+            {
+                choices.Add(int.Parse(choice.Trim()));
+            }
+
+            return choices;
+        }
+
+        public void PresentQuestion(QandA question, List<int> choices)
+        {
+            PrintQuestion(question.Question);
+            PrintOptions(question.Options);
+
+            Console.WriteLine("You've chosen:");
+            foreach (int choice in choices)
+            {
+                Console.WriteLine(question.Options[choice - 1]);
+            }
+        }
+
+        public void AddQuestion(List<QandA> QuestionList)
+        {
+            int numQuestions = ScanInputInteger("How many questions do you want to add?");
+            for (int q = 0; q < numQuestions; q++)
+            {
+                var newQuestion = new QandA();
+
+                newQuestion.Question = ScanInputString("Enter the question:");
+                newQuestion.Options = GetOptions();
+                newQuestion.Answer = GetCorrectAnswer(newQuestion.Options);
+
+                QuestionList.Add(newQuestion);
+            }
+        }
+
         public List<string> GetOptions()
         {
             int numOptions = ScanInputInteger("How many options does this question have?");
@@ -112,73 +148,16 @@ namespace QuizMaker
 
             return options;
         }
-
-        public int GetCorrectAnswers(List<string> options)
+        public void PrintResult(int score)
         {
-            if (ScanInputBool("Does this question have multiple correct answers? (true/false)"))
+            Console.WriteLine("Result:");
+            if (score == 0)
             {
-                Console.WriteLine("How many correct answers does this question have?");
-                return ScanInputInteger("Enter the number of correct answers:");
+                Console.WriteLine("Wrong.");
             }
             else
             {
-                return 1;
-            }
-        }
-
-        public string[] GetCorrectAnswer(List<string> options, int correctAnswers)
-        {
-            string[] answers = new string[correctAnswers];
-
-            for (int a = 0; a < correctAnswers; a++)
-            {
-                while (true)
-                {
-                    Console.WriteLine($"Enter correct answer {a + 1}:");
-                    string answer = Console.ReadLine().ToLower();
-                    if (!options.Contains(answer))
-                    {
-                        Console.WriteLine("Please make sure your entry matches the options.");
-                    }
-                    else
-                    {
-                        answers[a] = answer;
-                        break;
-                    }
-                }
-            }
-            return answers;
-        }
-        public List<int> GetChoices(int numberOfAnswers)
-        {
-            Console.WriteLine("Enter your option");
-
-            List<int> choices = new List<int>();
-
-            for (int i = 0; i < numberOfAnswers; i++)
-            {
-                choices.Add(int.Parse(Console.ReadLine()));
-            }
-
-            return choices;
-        }
-        public void PresentQuestion(QandA question, List<int> choices)
-        {
-            PrintQuestion(question.Question);
-            PrintOptions(question.Options);
-
-            Console.WriteLine("You've chosen:");
-            foreach (int choice in choices)
-            {
-                Console.WriteLine(question.Options[choice - 1]);
-            }
-        }
-        public void AddQuestion(List<QandA> QuestionList)
-        {
-            int numQuestions = ScanInputInteger("How many questions do you want to add?");
-            for (int q = 0; q < numQuestions; q++)
-            {
-                QuestionList.Add(CreateQuestion());
+                Console.WriteLine("Correct!");
             }
         }
     }

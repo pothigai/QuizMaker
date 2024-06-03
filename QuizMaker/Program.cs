@@ -7,7 +7,6 @@ namespace QuizMaker
     {
         static void Main(string[] args)
         {
-
             var QuestionList = new List<QandA>();
             UserInterface ui = new UserInterface();
             QuestionListLogic logic = new QuestionListLogic();
@@ -37,8 +36,10 @@ namespace QuizMaker
                     foreach (var question in QuestionList)
                     {
                         ui.PresentQuestion(question, new List<int>());
-                        List<int> choices = ui.GetChoices(question.CorrectAnswers);
-                        points += logic.AddPoints(question, choices);
+                        List<int> choices = ui.GetChoices(question.Options.Count);
+                        int score = logic.AddPoints(question, choices);
+                        ui.PrintResult(score);
+                        points += score;
                         ui.PrintOutputMessage("Total points:");
                         ui.PrintOutputMessage(points.ToString());
                     }
