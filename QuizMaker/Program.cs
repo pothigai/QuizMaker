@@ -33,15 +33,23 @@ namespace QuizMaker
                 {
                     int points = 0;
                     QuestionList = logic.ReadXmlFile();
-                    foreach (var question in QuestionList)
+
+                    if (QuestionList == null)
                     {
-                        ui.PresentQuestion(question, new List<int>());
-                        List<int> choices = ui.GetChoices(question.Options.Count);
-                        int score = logic.AddPoints(question, choices);
-                        ui.PrintResult(score);
-                        points += score;
-                        ui.PrintOutputMessage("Total points:");
-                        ui.PrintOutputMessage(points.ToString());
+                        Console.WriteLine($"File '{Constants.PATH}' does not exist.");
+                    }
+                    else
+                    {
+                        foreach (var question in QuestionList)
+                        {
+                            ui.PresentQuestion(question, new List<int>());
+                            List<int> choices = ui.GetChoices(question.Options.Count);
+                            int score = logic.AddPoints(question, choices);
+                            ui.PrintResult(score);
+                            points += score;
+                            ui.PrintOutputMessage("Total points:");
+                            ui.PrintOutputMessage(points.ToString());
+                        }
                     }
                     validChoice = true;
                 }
