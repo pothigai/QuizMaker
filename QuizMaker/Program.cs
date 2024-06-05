@@ -43,7 +43,7 @@ namespace QuizMaker
                         foreach (var question in QuestionList)
                         {
                             ui.PresentQuestion(question, new List<int>());
-                            List<int> choices = ui.GetChoices(question.Options.Count);
+                            List<int> choices = ui.GetChoices();
                             int score = logic.AddPoints(question, choices);
                             ui.PrintResult(score);
                             points += score;

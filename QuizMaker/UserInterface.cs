@@ -95,7 +95,7 @@ namespace QuizMaker
             return answers.Select(a => a.Trim()).ToArray();
         }
 
-        public List<int> GetChoices(int numberOfAnswers)
+        public List<int> GetChoices()
         {
             Console.WriteLine("Enter your option(s) separated by commas:");
 
