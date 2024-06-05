@@ -11,7 +11,7 @@ namespace QuizMaker
     {
         XmlSerializer serializer = new XmlSerializer(typeof(List<QandA>));
 
-        public bool EvaluateAnswers(QandA question, List<int> choices)
+        public bool isAnswerCorrect(QandA question, List<int> choices)
         {
             List<string> chosenOptions = choices.Select(choice => question.Options[choice - 1].Trim().ToLower()).ToList();
             List<string> correctAnswers = question.Answer.Select(a => a.Trim().ToLower()).ToList();
@@ -58,10 +58,10 @@ namespace QuizMaker
 
         public int AddPoints(QandA question, List<int> choices)
         {
-            bool result = EvaluateAnswers(question, choices);
+            bool isResultTrue = isAnswerCorrect(question, choices);
             int score;
 
-            if (result)
+            if (isResultTrue)
             {
                 score = 1;
             }
@@ -73,7 +73,7 @@ namespace QuizMaker
             return score;
         }
 
-        public bool InvalidCheck(char choice)
+        public bool isValidMode(char choice)
         {
             return !(choice == Constants.BUILD || choice == Constants.PLAY || choice == Constants.EXIT);
         }

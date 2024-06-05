@@ -13,13 +13,13 @@ namespace QuizMaker
 
             ui.PrintOutputMessage("Welcome to the quiz maker");
 
-            bool validChoice = false;
+            bool isValidChoice = false;
 
-            while (!validChoice)
+            while (!isValidChoice)
             {
                 char choice = ui.ScanInputChar($"Do you want to play ({Constants.PLAY}) or build ({Constants.BUILD}) or exit ({Constants.EXIT})?");
 
-                if (logic.InvalidCheck(choice))
+                if (logic.isValidMode(choice))
                 {
                     ui.PrintOutputMessage($"Invalid choice. Please choose '{Constants.PLAY}' to play, '{Constants.BUILD}' to build, or '{Constants.EXIT}' to exit.");
                 }
@@ -27,7 +27,7 @@ namespace QuizMaker
                 {
                     ui.AddQuestion(QuestionList);
                     logic.CreateXmlFile(QuestionList);
-                    validChoice = true;
+                    isValidChoice = true;
                 }
                 if (choice == Constants.PLAY)
                 {
@@ -51,12 +51,12 @@ namespace QuizMaker
                             ui.PrintOutputMessage(points.ToString());
                         }
                     }
-                    validChoice = true;
+                    isValidChoice = true;
                 }
                 if (choice == Constants.EXIT)
                 {
                     ui.PrintOutputMessage("Exiting.");
-                    validChoice = true;
+                    isValidChoice = true;
                 }
             }
         }
