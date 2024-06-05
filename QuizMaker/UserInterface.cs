@@ -79,9 +79,11 @@ namespace QuizMaker
         {
             Console.WriteLine("Enter correct answer(s) separated by commas:");
             string answerString = Console.ReadLine().ToLower();
-            int numberOfAnswers = answerString.Count(c => c == ',') + 1;
+            int numberOfAnswers = answerString.Count(c => c == Constants.COMMA) + 1;
+            
             Console.WriteLine($"You entered {numberOfAnswers} answer(s).");
-            string[] answers = answerString.Split(',');
+
+            string[] answers = answerString.Split(Constants.COMMA);
             foreach (var answer in answers)
             {
                 if (!options.Contains(answer.Trim()))
@@ -100,7 +102,7 @@ namespace QuizMaker
             List<int> choices = new List<int>();
 
             string input = Console.ReadLine();
-            string[] inputs = input.Split(',');
+            string[] inputs = input.Split(Constants.COMMA);
             foreach (var choice in inputs)
             {
                 choices.Add(int.Parse(choice.Trim()));

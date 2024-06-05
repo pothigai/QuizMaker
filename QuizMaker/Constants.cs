@@ -12,5 +12,6 @@ namespace QuizMaker
         public const char BUILD = 'b';
         public const char PLAY = 'p';
         public const char EXIT = 'x';   
+        public const char COMMA = ',';
     }
 }
